@@ -67,6 +67,7 @@ namespace ToastNotifierWpf
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // generate a test toast
+            // SetBackgroundActivation will prevent launching a new instance of this app when the user clicks on the toast
             new ToastContentBuilder()
                 .AddText("SW installation")
                 .AddText("Choose installation time")
@@ -78,6 +79,7 @@ namespace ToastNotifierWpf
                     .SetContent("Later")
                     .AddArgument("action", "later")
                     .SetBackgroundActivation())
+                .SetBackgroundActivation()
                 .Show();
         }
 
