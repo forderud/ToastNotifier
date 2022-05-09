@@ -3,8 +3,8 @@ Custom Windows "toast" notification application. Intended as replacement for the
 **LIMITATION**: Actions like **buttons are _not_ supported**, since they do not appear to be accessible through the API.
 
 Related forum questions:
-* https://techcommunity.microsoft.com/t5/microsoft-intune/install-amp-restart-notifications-when-using-custom-shell/m-p/3300210
-* https://docs.microsoft.com/en-us/answers/questions/836756/how-to-access-actionsbuttons-from-windowsuinotific.html
+* https://techcommunity.microsoft.com/t5/microsoft-intune/install-amp-restart-notifications-when-using-custom-shell/m-p/3300210 (answer suggested to work around the problem with PSAppDeployToolkit)
+* https://docs.microsoft.com/en-us/answers/questions/836756/how-to-access-actionsbuttons-from-windowsuinotific.html (answer suggested that this is not possible with the current API)
 * https://github.com/microsoft/WindowsAppSDK/discussions/2471
 
 
