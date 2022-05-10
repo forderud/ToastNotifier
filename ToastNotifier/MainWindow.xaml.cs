@@ -47,7 +47,13 @@ namespace ToastNotifierWpf
                     return;
             }
 
-            m_listener.NotificationChanged += Listener_NotificationChanged; // 'Element not found' exception if not running as a UWP process
+            try
+            {
+                m_listener.NotificationChanged += Listener_NotificationChanged; // 'Element not found' exception if not running as a UWP process
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "NotificationChanged error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
