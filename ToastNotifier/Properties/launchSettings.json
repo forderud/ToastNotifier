@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ToastNotifier (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ToastNotifier (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

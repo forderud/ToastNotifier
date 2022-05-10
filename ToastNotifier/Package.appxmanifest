@@ -8,14 +8,14 @@
   IgnorableNamespaces="uap rescap uap3">
 
   <Identity
-    Name="1b8653fb-7fce-4f1c-9e41-2c8ad3e83fe3"
+    Name="c726ae17-29df-476b-b51b-ec6def2cb9cf"
     Publisher="CN=forderud"
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>ToastNotifierPackage</DisplayName>
-    <PublisherDisplayName>100030120</PublisherDisplayName>
-    <Logo>Images\StoreLogo.png</Logo>
+    <DisplayName>ToastNotifier</DisplayName>
+    <PublisherDisplayName>Fredrik Orderud</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -33,12 +33,12 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="ToastNotifier"
-        Description="ToastNotifierPackage"
+        Description="ToastNotifier"
         BackgroundColor="transparent"
-        Square150x150Logo="Images\Square150x150Logo.png"
-        Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Images\SplashScreen.png" />
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.aboveLockScreen" />
