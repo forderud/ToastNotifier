@@ -42,6 +42,8 @@
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\ToastNotifier\ToastNotifier.csproj" />
+    <ProjectReference Include="..\ToastNotifier\ToastNotifier.csproj">
+      <TrustLevel>Partial</TrustLevel>
+    </ProjectReference>
   </ItemGroup>
 </Project>
