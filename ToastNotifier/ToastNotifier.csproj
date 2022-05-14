@@ -4,7 +4,7 @@
     <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <RootNamespace>ToastNotifier</RootNamespace>
     <Platforms>x64</Platforms>
-    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
     <UseWPF>True</UseWPF>
