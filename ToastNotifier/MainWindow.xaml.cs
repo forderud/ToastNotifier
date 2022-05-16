@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using Windows.Foundation.Metadata;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
 
@@ -28,6 +29,10 @@ namespace ToastNotifierWpf
             var uwp_checker = new Helpers();
             if (!uwp_checker.IsRunningAsUwp())
                 MessageBox.Show("Not running as UWP", "UWP error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            if (!ApiInformation.IsTypePresent("Windows.UI.Notifications.Management.UserNotificationListener"))
+                MessageBox.Show("UserNotificationListener not supported (too old Windows version).", "UWP error", MessageBoxButton.OK, MessageBoxImage.Error);
+
 
             // get listener for the current user
             m_listener = UserNotificationListener.Current;
