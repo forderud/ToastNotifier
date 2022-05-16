@@ -1,6 +1,8 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
@@ -22,6 +24,10 @@ namespace ToastNotifierWpf
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             this.Left = desktopWorkingArea.Right - this.Width;
             this.Top = desktopWorkingArea.Bottom - this.Height;
+
+            var uwp_checker = new Helpers();
+            if (!uwp_checker.IsRunningAsUwp())
+                MessageBox.Show("Not running as UWP", "UWP error", MessageBoxButton.OK, MessageBoxImage.Error);
 
             // get listener for the current user
             m_listener = UserNotificationListener.Current;
@@ -99,6 +105,27 @@ namespace ToastNotifierWpf
             IReadOnlyList<AdaptiveNotificationText> elms = toastBinding.GetTextElements();
             foreach (var elm in elms)
                 textBox.AppendText(elm.Text + Environment.NewLine);
+        }
+    }
+
+    // Copied from https://github.com/qmatteoq/DesktopBridgeHelpers/blob/master/DesktopBridge.Helpers/Helpers.cs
+    public class Helpers
+    {
+        const long APPMODEL_ERROR_NO_PACKAGE = 15700L;
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
+
+        public bool IsRunningAsUwp()
+        {
+            int length = 0;
+            StringBuilder sb = new StringBuilder(0);
+            int result = GetCurrentPackageFullName(ref length, sb);
+
+            sb = new StringBuilder(length);
+            result = GetCurrentPackageFullName(ref length, sb);
+
+            return result != APPMODEL_ERROR_NO_PACKAGE;
         }
     }
 }
