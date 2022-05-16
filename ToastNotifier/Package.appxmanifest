@@ -9,6 +9,7 @@
 
   <Identity
     Name="c726ae17-29df-476b-b51b-ec6def2cb9cf"
+    ProcessorArchitecture="x64"
     Publisher="CN=forderud"
     Version="1.0.0.0" />
 
