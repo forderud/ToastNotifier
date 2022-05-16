@@ -33,7 +33,7 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="$targetentrypoint$">
+      EntryPoint="Windows.PartialTrustApplication">
       <uap:VisualElements
         DisplayName="ToastNotifier Packaged"
         Description="ToastNotifier"
