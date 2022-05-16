@@ -41,9 +41,6 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
         <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\LockScreenLogo.png"/>
       </uap:VisualElements>
-      <Extensions>
-        <uap:Extension Category="windows.aboveLockScreen" />
-      </Extensions>
     </Application>
   </Applications>
 
