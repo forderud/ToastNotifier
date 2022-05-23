@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToastNotifier", "ToastNotifier\ToastNotifier.csproj", "{323409A9-417D-4FFC-B037-F1921014D6E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToastNotifierUWP", "ToastNotifierUWP\ToastNotifierUWP.csproj", "{EA1ECD68-85F5-456A-8FCC-97656FFBA3C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -17,6 +19,12 @@ Global
 		{323409A9-417D-4FFC-B037-F1921014D6E5}.Release|x64.ActiveCfg = Release|x64
 		{323409A9-417D-4FFC-B037-F1921014D6E5}.Release|x64.Build.0 = Release|x64
 		{323409A9-417D-4FFC-B037-F1921014D6E5}.Release|x64.Deploy.0 = Release|x64
+		{EA1ECD68-85F5-456A-8FCC-97656FFBA3C9}.Debug|x64.ActiveCfg = Debug|x64
+		{EA1ECD68-85F5-456A-8FCC-97656FFBA3C9}.Debug|x64.Build.0 = Debug|x64
+		{EA1ECD68-85F5-456A-8FCC-97656FFBA3C9}.Debug|x64.Deploy.0 = Debug|x64
+		{EA1ECD68-85F5-456A-8FCC-97656FFBA3C9}.Release|x64.ActiveCfg = Release|x64
+		{EA1ECD68-85F5-456A-8FCC-97656FFBA3C9}.Release|x64.Build.0 = Release|x64
+		{EA1ECD68-85F5-456A-8FCC-97656FFBA3C9}.Release|x64.Deploy.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
