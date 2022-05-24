@@ -37,10 +37,10 @@ namespace ToastNotifierWpf
             // get listener for the current user
             m_listener = UserNotificationListener.Current;
 
-            InitalizeListener();
+            InitializeListener();
         }
 
-        private async void InitalizeListener()
+        private async void InitializeListener()
         {
             // request access to the user's notifications (must be called from UI thread)
             UserNotificationListenerAccessStatus accessStatus = await m_listener.RequestAccessAsync();
