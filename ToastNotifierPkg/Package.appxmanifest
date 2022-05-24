@@ -13,7 +13,7 @@
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>ToastNotifier</DisplayName>
+    <DisplayName>ToastNotifierPkg</DisplayName>
     <PublisherDisplayName>Fredrik Orderud</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="ToastNotifier"
+        DisplayName="ToastNotifier Packaged"
         Description="ToastNotifier"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
