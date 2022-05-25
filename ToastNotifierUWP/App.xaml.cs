@@ -86,5 +86,22 @@ namespace ToastNotifierUWP
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            var deferral = args.TaskInstance.GetDeferral();
+
+            switch (args.TaskInstance.Task.Name)
+            {
+                case "UserNotificationChanged":
+                    // Call method to process new/removed notifications
+                    var frame = (Frame)Window.Current.Content;
+                    var mainpage = (MainPage)frame.Content;
+                    mainpage.UpdateNotificationChanged();
+                    break;
+            }
+
+            deferral.Complete();
+        }
     }
 }

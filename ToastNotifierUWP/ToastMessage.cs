@@ -1,5 +1,8 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI.Notifications;
@@ -40,7 +43,8 @@ internal class ToastMessage
                 throw new Exception("UserNotificationListenerAccessStatus.Unspecified. Please retry.");
         }
 
-        m_listener.NotificationChanged += Listener_NotificationChanged; // 'Element not found' exception if not running as a UWP process
+        if (m_callback != null)
+            m_listener.NotificationChanged += Listener_NotificationChanged; // 'Element not found' exception if not running as a UWP process
     }
 
     private void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
@@ -55,6 +59,13 @@ internal class ToastMessage
     public UserNotification GetNotification(uint UserNotificationId)
     {
         return m_listener.GetNotification(UserNotificationId);
+    }
+
+    public async Task<UserNotification> GetLastNotification()
+    {
+        // Get all the current notifications from the platform
+        IReadOnlyList<UserNotification> userNotifications = await m_listener.GetNotificationsAsync(NotificationKinds.Toast);
+        return userNotifications.Last();
     }
 
     public void Generate()

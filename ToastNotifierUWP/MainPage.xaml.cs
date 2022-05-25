@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Windows.UI.Notifications;
-using Windows.UI.Notifications.Management;
 using Windows.UI.Xaml.Controls;
+using Windows.ApplicationModel.Background;
+using System.Linq;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -23,9 +24,47 @@ namespace ToastNotifierUWP
 
         private async void InitializeListener()
         {
+            BackgroundAccessStatus bkgAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+            switch (bkgAccessStatus)
+            {
+                case BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity:
+                case BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity:
+                case BackgroundAccessStatus.AlwaysAllowed:
+                case BackgroundAccessStatus.AllowedSubjectToSystemPolicy:
+                    // success
+                    break;
+                default:
+                    {
+                        var dialog = new ContentDialog
+                        {
+                            Title = "Error",
+                            Content = "BackgroundExecutionManager.RequestAccessAsync failure.",
+                            CloseButtonText = "Ok"
+                        };
+
+                        await dialog.ShowAsync();
+                    }
+                    return;
+            }
+
+            // register OnBackgroundActivated callback on UserNotificationChanged events (only need to be done once)
+            if (!BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals("UserNotificationChanged")))
+            {
+                var builder = new BackgroundTaskBuilder()
+                {
+                    Name = "UserNotificationChanged"
+                };
+
+                // Set the trigger for Listener, listening to Toast Notifications
+                builder.SetTrigger(new UserNotificationChangedTrigger(NotificationKinds.Toast));
+
+                // Register the task
+                builder.Register();
+            }
+
             try
             {
-                m_toast = new ToastMessage(UpdateUI);
+                m_toast = new ToastMessage(null);
             } catch (Exception ex)
             {
                 var dialog = new ContentDialog
@@ -38,6 +77,13 @@ namespace ToastNotifierUWP
                 await dialog.ShowAsync();
 
             }
+        }
+
+        public async void UpdateNotificationChanged()
+        {
+            // Get all the current notifications from the platform
+            UserNotification notif = await m_toast.GetLastNotification();
+            UpdateUI(notif);
         }
 
         private void btnGenerate_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -60,7 +106,6 @@ namespace ToastNotifierUWP
                 foreach (var elm in elms)
                     content.Text += elm.Text + Environment.NewLine;
             });
-
         }
     }
 }
