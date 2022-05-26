@@ -25,7 +25,7 @@ namespace ToastNotifierUWP
         {
             try
             {
-                m_toast = new ToastMessage(Listener_NotificationChanged);
+                m_toast = new ToastMessage(UpdateUI);
             } catch (Exception ex)
             {
                 var dialog = new ContentDialog
@@ -40,18 +40,9 @@ namespace ToastNotifierUWP
             }
         }
 
-        private void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
-        {
-            UserNotification notif = m_toast.GetNotification(args.UserNotificationId);
-            if (notif == null)
-                return;
-
-            UpdateUI(notif);
-        }
-
         private void btnGenerate_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            ToastMessage.Generate();
+            m_toast.Generate();
         }
 
         private async void UpdateUI(UserNotification notif)

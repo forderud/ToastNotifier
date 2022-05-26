@@ -28,14 +28,9 @@ namespace ToastNotifierWpf
             if (!uwp_checker.IsRunningAsUwp())
                 MessageBox.Show("Not running as UWP", "UWP error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            InitializeListener();
-        }
-
-        private async void InitializeListener()
-        {
             try
             {
-                m_toast = new ToastMessage(Listener_NotificationChanged);
+                m_toast = new ToastMessage(UpdateUI);
             }
             catch (Exception ex)
             {
@@ -43,18 +38,9 @@ namespace ToastNotifierWpf
             }
         }
 
-        private void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
-        {
-            UserNotification notif = m_toast.GetNotification(args.UserNotificationId);
-            if (notif == null)
-                return;
-
-            UpdateUI(notif);
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ToastMessage.Generate();
+            m_toast.Generate();
         }
 
         private void UpdateUI (UserNotification notif)

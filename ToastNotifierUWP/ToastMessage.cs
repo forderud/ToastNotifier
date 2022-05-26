@@ -7,16 +7,19 @@ using Windows.UI.Notifications.Management;
 
 internal class ToastMessage
 {
-    static uint s_counter = 0;
+    public delegate void ToastNotificationCallback(UserNotification notif);
 
+    private uint s_counter = 0;
     private UserNotificationListener m_listener;
+    private ToastNotificationCallback m_callback;
 
-    public ToastMessage(TypedEventHandler<UserNotificationListener, UserNotificationChangedEventArgs> listener)
+    public ToastMessage(ToastNotificationCallback cb)
     {
-        Initialize(listener);
+        m_callback = cb; // must be done before calling Initialize()
+        Initialize();
     }
 
-    private async void Initialize(TypedEventHandler<UserNotificationListener, UserNotificationChangedEventArgs> listener) {
+    private async void Initialize() {
         if (!ApiInformation.IsTypePresent("Windows.UI.Notifications.Management.UserNotificationListener"))
             throw new Exception("UserNotificationListener not supported (too old Windows version).");
 
@@ -37,7 +40,16 @@ internal class ToastMessage
                 throw new Exception("UserNotificationListenerAccessStatus.Unspecified. Please retry.");
         }
 
-        m_listener.NotificationChanged += listener; // 'Element not found' exception if not running as a UWP process
+        m_listener.NotificationChanged += Listener_NotificationChanged; // 'Element not found' exception if not running as a UWP process
+    }
+
+    private void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
+    {
+        UserNotification notif = m_listener.GetNotification(args.UserNotificationId);
+        if (notif == null)
+            return;
+
+        m_callback(notif);
     }
 
     public UserNotification GetNotification(uint UserNotificationId)
@@ -45,7 +57,7 @@ internal class ToastMessage
         return m_listener.GetNotification(UserNotificationId);
     }
 
-    public static void Generate()
+    public void Generate()
     {
         // generate a test toast
         // SetBackgroundActivation will prevent launching a new instance of this app when the user clicks on the toast
