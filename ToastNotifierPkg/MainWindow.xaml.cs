@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
-using Windows.Foundation.Metadata;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
 
@@ -14,7 +13,7 @@ namespace ToastNotifierWpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        private UserNotificationListener m_listener;
+        private ToastMessage m_toast;
 
         public MainWindow()
         {
@@ -29,46 +28,24 @@ namespace ToastNotifierWpf
             if (!uwp_checker.IsRunningAsUwp())
                 MessageBox.Show("Not running as UWP", "UWP error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            if (!ApiInformation.IsTypePresent("Windows.UI.Notifications.Management.UserNotificationListener"))
-                MessageBox.Show("UserNotificationListener not supported (too old Windows version).", "UWP error", MessageBoxButton.OK, MessageBoxImage.Error);
-
-
-            // get listener for the current user
-            m_listener = UserNotificationListener.Current;
-
             InitializeListener();
         }
 
         private async void InitializeListener()
         {
-            // request access to the user's notifications (must be called from UI thread)
-            UserNotificationListenerAccessStatus accessStatus = await m_listener.RequestAccessAsync();
-            switch (accessStatus)
-            {
-                case UserNotificationListenerAccessStatus.Allowed:
-                    break; // success
-
-                case UserNotificationListenerAccessStatus.Denied:
-                    MessageBox.Show("UserNotificationListenerAccessStatus.Denied.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-
-                case UserNotificationListenerAccessStatus.Unspecified:
-                    MessageBox.Show("UserNotificationListenerAccessStatus.Unspecified. Please retry.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-            }
-
             try
             {
-                m_listener.NotificationChanged += Listener_NotificationChanged; // 'Element not found' exception if not running as a UWP process
-            } catch (Exception ex)
+                m_toast = new ToastMessage(Listener_NotificationChanged);
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "NotificationChanged error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
         {
-            UserNotification notif = m_listener.GetNotification(args.UserNotificationId);
+            UserNotification notif = m_toast.GetNotification(args.UserNotificationId);
             if (notif == null)
                 return;
 

@@ -1,7 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Windows.Foundation.Metadata;
 using Windows.UI.Notifications;
 using Windows.UI.Notifications.Management;
 using Windows.UI.Xaml.Controls;
@@ -15,7 +13,7 @@ namespace ToastNotifierUWP
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private UserNotificationListener m_listener;
+        private ToastMessage m_toast;
 
         public MainPage()
         {
@@ -25,76 +23,26 @@ namespace ToastNotifierUWP
 
         private async void InitializeListener()
         {
-            if (!ApiInformation.IsTypePresent("Windows.UI.Notifications.Management.UserNotificationListener"))
-            {
-                var dialog = new ContentDialog
-                {
-                    Title = "UWP error",
-                    Content = "UserNotificationListener not supported (too old Windows version).",
-                    CloseButtonText = "Ok"
-                };
-
-                await dialog.ShowAsync();
-                return;
-            }
-
-            // get listener for the current user
-            m_listener = UserNotificationListener.Current;
-
-            // request access to the user's notifications (must be called from UI thread)
-            UserNotificationListenerAccessStatus accessStatus = await m_listener.RequestAccessAsync();
-            switch (accessStatus)
-            {
-                case UserNotificationListenerAccessStatus.Allowed:
-                    break; // success
-
-                case UserNotificationListenerAccessStatus.Denied:
-                    {
-                        var dialog = new ContentDialog
-                        {
-                            Title = "Error",
-                            Content = "UserNotificationListenerAccessStatus.Denied.",
-                            CloseButtonText = "Ok"
-                        };
-
-                        await dialog.ShowAsync();
-                    }
-                    return;
-
-                case UserNotificationListenerAccessStatus.Unspecified:
-                    {
-                        var dialog = new ContentDialog
-                        {
-                            Title = "Error",
-                            Content = "UserNotificationListenerAccessStatus.Unspecified. Please retry.",
-                            CloseButtonText = "Ok"
-                        };
-
-                        await dialog.ShowAsync();
-                    }
-                    return;
-            }
-
             try
             {
-                m_listener.NotificationChanged += Listener_NotificationChanged; // 'Element not found' exception if not running as a UWP process
-            }
-            catch (Exception ex)
+                m_toast = new ToastMessage(Listener_NotificationChanged);
+            } catch (Exception ex)
             {
                 var dialog = new ContentDialog
                 {
-                    Title = "NotificationChanged error",
-                    Content = ex.ToString(),
+                    Title = "Error",
+                    Content = ex.Message,
                     CloseButtonText = "Ok"
                 };
 
                 await dialog.ShowAsync();
+
             }
         }
 
         private async void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
         {
-            UserNotification notif = m_listener.GetNotification(args.UserNotificationId);
+            UserNotification notif = m_toast.GetNotification(args.UserNotificationId);
             if (notif == null)
                 return;
 
