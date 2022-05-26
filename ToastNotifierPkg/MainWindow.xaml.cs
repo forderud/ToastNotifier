@@ -49,12 +49,7 @@ namespace ToastNotifierWpf
             if (notif == null)
                 return;
 
-            Application.Current.Dispatcher.Invoke(new Action(() => {
-                // access UI from main thread
-                appName.Content = notif.AppInfo.DisplayInfo.DisplayName; // application name
-                textBox.Clear();
-                UpdateTextBox(notif);
-            }));
+            UpdateUI(notif);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -62,16 +57,23 @@ namespace ToastNotifierWpf
             ToastMessage.Generate();
         }
 
-        private void UpdateTextBox (UserNotification notif)
+        private void UpdateUI (UserNotification notif)
         {
-            // accessing notif.Notification.Visual.Bindings directly will just give the same "ToastGeneric" NotificationBinding
-            NotificationBinding toastBinding = notif.Notification.Visual.GetBinding(KnownNotificationBindings.ToastGeneric);
-            if (toastBinding == null)
-                return;
+            Application.Current.Dispatcher.Invoke(new Action(() => {
+                // access UI from main thread
+                appName.Content = "";
+                textBox.Clear();
 
-            IReadOnlyList<AdaptiveNotificationText> elms = toastBinding.GetTextElements();
-            foreach (var elm in elms)
-                textBox.AppendText(elm.Text + Environment.NewLine);
+                // accessing notif.Notification.Visual.Bindings directly will just give the same "ToastGeneric" NotificationBinding
+                NotificationBinding toastBinding = notif.Notification.Visual.GetBinding(KnownNotificationBindings.ToastGeneric);
+                if (toastBinding == null)
+                    return;
+
+                appName.Content = notif.AppInfo.DisplayInfo.DisplayName; // application name
+                IReadOnlyList<AdaptiveNotificationText> elms = toastBinding.GetTextElements();
+                foreach (var elm in elms)
+                    textBox.AppendText(elm.Text + Environment.NewLine);
+            }));
         }
     }
 

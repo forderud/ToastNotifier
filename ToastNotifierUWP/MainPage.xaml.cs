@@ -40,12 +40,22 @@ namespace ToastNotifierUWP
             }
         }
 
-        private async void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
+        private void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
         {
             UserNotification notif = m_toast.GetNotification(args.UserNotificationId);
             if (notif == null)
                 return;
 
+            UpdateUI(notif);
+        }
+
+        private void btnGenerate_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ToastMessage.Generate();
+        }
+
+        private async void UpdateUI(UserNotification notif)
+        {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
                 title.Text = notif.AppInfo.DisplayInfo.DisplayName; // application name
 
@@ -58,13 +68,8 @@ namespace ToastNotifierUWP
                 IReadOnlyList<AdaptiveNotificationText> elms = toastBinding.GetTextElements();
                 foreach (var elm in elms)
                     content.Text += elm.Text + Environment.NewLine;
-
             });
-        }
 
-        private void btnGenerate_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            ToastMessage.Generate();
         }
     }
 }
