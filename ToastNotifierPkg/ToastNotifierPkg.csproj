@@ -10,6 +10,9 @@
     <UseWPF>True</UseWPF>
     <DefaultLanguage>en</DefaultLanguage>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\ToastNotifierUWP\ToastMessage.cs" Link="ToastMessage.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
