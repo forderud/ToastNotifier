@@ -27,8 +27,6 @@ namespace ToastNotifierUWP
             BackgroundAccessStatus bkgAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
             switch (bkgAccessStatus)
             {
-                case BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity:
-                case BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity:
                 case BackgroundAccessStatus.AlwaysAllowed:
                 case BackgroundAccessStatus.AllowedSubjectToSystemPolicy:
                     // success
