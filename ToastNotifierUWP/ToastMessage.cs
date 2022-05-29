@@ -68,8 +68,14 @@ internal class ToastMessage
     public async Task<UserNotification> GetLastNotification()
     {
         // Get all the current notifications from the platform
-        IReadOnlyList<UserNotification> userNotifications = await m_listener.GetNotificationsAsync(NotificationKinds.Toast);
-        return userNotifications.Last();
+        try
+        {
+            IReadOnlyList<UserNotification> userNotifications = await m_listener.GetNotificationsAsync(NotificationKinds.Toast);
+            return userNotifications.Last();
+        } catch (System.InvalidOperationException) // 'Sequence contains no elements'
+        {
+            return null;
+        }
     }
 
     public void Generate()

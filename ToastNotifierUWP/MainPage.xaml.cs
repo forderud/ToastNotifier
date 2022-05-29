@@ -88,7 +88,8 @@ namespace ToastNotifierUWP
         {
             // Get all the current notifications from the platform
             UserNotification notif = await m_toast.GetLastNotification();
-            UpdateUI(notif);
+            if (notif != null)
+                UpdateUI(notif);
         }
 #endif
 
