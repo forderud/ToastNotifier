@@ -28,6 +28,11 @@ namespace ToastNotifierWpf
             if (!uwp_checker.IsRunningAsUwp())
                 MessageBox.Show("Not running as UWP", "UWP error", MessageBoxButton.OK, MessageBoxImage.Error);
 
+            InitializeListener();
+        }
+
+        private async void InitializeListener()
+        {
             try
             {
                 m_toast = new ToastMessage(UpdateUI);
