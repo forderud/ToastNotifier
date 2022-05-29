@@ -44,7 +44,11 @@ internal class ToastMessage
         }
 
         if (m_callback != null)
-            m_listener.NotificationChanged += Listener_NotificationChanged; // 'Element not found' exception if not running as a UWP process
+        {
+            // 'The remote procedure call failed' on some computers (don't understand why)
+            // 'Element not found' exception if not running as a UWP process
+            m_listener.NotificationChanged += Listener_NotificationChanged;
+        }
     }
 
     private void Listener_NotificationChanged(UserNotificationListener sender, UserNotificationChangedEventArgs args)
