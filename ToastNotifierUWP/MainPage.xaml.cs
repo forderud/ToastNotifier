@@ -24,6 +24,7 @@ namespace ToastNotifierUWP
 
         private async void InitializeListener()
         {
+#if !ENABLE_FOREGROUND_EVENT_PROCESSING
             BackgroundAccessStatus bkgAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
             switch (bkgAccessStatus)
             {
@@ -59,10 +60,15 @@ namespace ToastNotifierUWP
                 // Register the task
                 builder.Register();
             }
+#endif
 
             try
             {
+#if ENABLE_FOREGROUND_EVENT_PROCESSING
+                m_toast = new ToastMessage(UpdateUI);
+#else
                 m_toast = new ToastMessage(null);
+#endif
             } catch (Exception ex)
             {
                 var dialog = new ContentDialog
@@ -77,12 +83,14 @@ namespace ToastNotifierUWP
             }
         }
 
+#if !ENABLE_FOREGROUND_EVENT_PROCESSING
         public async void UpdateNotificationChanged()
         {
             // Get all the current notifications from the platform
             UserNotification notif = await m_toast.GetLastNotification();
             UpdateUI(notif);
         }
+#endif
 
         private void btnGenerate_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {

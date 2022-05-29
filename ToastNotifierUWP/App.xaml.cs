@@ -87,6 +87,7 @@ namespace ToastNotifierUWP
             deferral.Complete();
         }
 
+#if !ENABLE_FOREGROUND_EVENT_PROCESSING
         protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             var deferral = args.TaskInstance.GetDeferral();
@@ -103,5 +104,6 @@ namespace ToastNotifierUWP
 
             deferral.Complete();
         }
+#endif
     }
 }
