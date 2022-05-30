@@ -2,15 +2,18 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-  IgnorableNamespaces="uap rescap uap3">
+  IgnorableNamespaces="uap mp rescap uap3">
 
   <Identity
     Name="c726ae17-29df-476b-b51b-ec6def2cb9cf"
     Publisher="CN=forderud"
     Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="c726ae17-29df-476b-b51b-ec6def2cb9cf" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>ToastNotifierPkg</DisplayName>
